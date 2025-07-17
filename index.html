@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Do You Love Me?</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+    <link
+      rel="icon"
+      href="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fclipart-library.com%2Fimages%2Fpi7LeLMi9.png&f=1&nofb=1&ipt=be980c0e338e60d7f9519e6e135db03d1822b9ba236b57a1e65f147c715f4b97"
+    />
+  </head>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #ffe6e6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .image {
+      width: 150px;
+      height: 150px;
+    }
+
+    h2 {
+      color: #333;
+      font-size: 24px;
+    }
+
+    p {
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      font-size: 30px;
+      margin-top: -10px;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    .buttons button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .buttons button:hover {
+      background-color: #ffd6d6;
+    }
+    .container {
+      text-align: center;
+      position: relative;
+    }
+    .heart {
+      position: fixed;
+      top: -2em;
+      color: #ff3366;
+      animation: fall 3s linear forwards;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    .btn-buttons {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+    }
+
+    button {
+      padding: 16px 32px;
+      font-size: 18px;
+      background-color: #ff3366;
+      border: none;
+      border-radius: 30px;
+      color: rgb(236, 141, 141);
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(255, 51, 102, 0.5);
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #e02d5f;
+    }
+    .swal2-popup {
+    width: 90% !important;  /* Responsive width */
+    max-width: 400px !important;
+    font-size: 16px !important;
+  }
+  
+  /* Smaller font and smaller image on narrow screens */
+  @media (max-width: 400px) {
+    .swal2-popup {
+      font-size: 14px !important;
+    }
+    .swal2-html-container img {
+      width: 60px !important;
+    }
+  }
+  </style>
+  <body>
+    <div class="container">
+      <h1 id="question">Do you love Me ? 😎</h1>
+      <p id="subtext"></p>
+
+      <img
+        src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmc5Y2xla3lrbmhzZ205ZjgxMzh1MXVjMmc0NXF1bjBzNTMwbmgybCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/KztT2c4u8mYYUiMKdJ/200.webp"
+        class="image"
+        alt="response gif"
+      />
+
+      <div class="buttons">
+        <button onclick="handleYes()" id="button">Yes</button>
+        <button onclick="handleNo()">No</button>
+      </div>
+    </div>
+    <audio
+      id="beepSound"
+      src="https://www.soundjay.com/buttons/sounds/button-3.mp3"
+      preload="auto"
+    ></audio>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      let noClickCount = 0;
+      const noBtn = document.querySelectorAll("button")[1];
+      const yesBtn = document.querySelectorAll("button")[0];
+      const image = document.querySelector(".image");
+
+      function handleYes() {
+        noBtn.style.display = "none";
+        // Hide buttons
+        const interval = setInterval(() => {
+          // interval to create falling hearts
+          const heart = document.createElement("div");
+          heart.className = "heart";
+          heart.textContent = "❤️";
+
+          heart.style.left = Math.random() * window.innerWidth + "px";
+          heart.style.fontSize = 16 + Math.random() * 20 + "px";
+
+          document.body.appendChild(heart);
+          // Remove heart after 3 seconds
+
+          setTimeout(() => heart.remove(), 10000);
+          // Clear interval after 50 seconds
+        }, 100);
+
+        setTimeout(() => clearInterval(interval), 50000);
+        // Clear interval after 50 seconds
+        noBtn.removeEventListener("click", handleNo);
+        // Remove no button click event listener
+        yesBtn.removeEventListener("click", handleYes);
+        // Remove yes button click event listener
+        noBtn.style.display = "none"; // Hide no button
+        yesBtn.style.display = "none"; // Hide yes button
+        noBtn.style.position = "absolute"; // Reset position
+        noBtn.style.left = "50%"; // Center horizontally
+        noBtn.style.top = "50%"; // Center vertically
+        noBtn.style.transform = "translate(-50%, -50%)"; // Center the button
+        noBtn.style.zIndex = "1000"; // Ensure it stays on top
+
+        noClickCount = 0;
+        // Reset no click count
+        noBtn.style.position = "absolute"; // Reset position
+        document.getElementById("question").innerText = "Hehe i know it! ❤️❤️";
+        document.getElementById("subtext").innerText = "Let Go...😘😘";
+        document.getElementById("question").style.color = "#ff4d4d";
+
+        // Set happy/cute love GIF
+        image.src =
+          "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmc5Y2xla3lrbmhzZ205ZjgxMzh1MXVjMmc0NXF1bjBzNTMwbmgybCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/j5O4lz9WEtfvG/200.webp"; // Love GIF
+
+        document.getElementById("beepSound").play();
+
+        // Vibrate if supported
+        if (navigator.vibrate) {
+          navigator.vibrate(200);
+        }
+
+        // Wait 4 seconds BEFORE showing the alert
+        setTimeout(() => {
+  let timerInterval;
+  Swal.fire({
+    title: 'Yes to Contact Me',
+    html: `
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="80"><br>
+      Redirecting in <b></b> seconds...<br> heheheheehehe 😁❤️
+    `,
+    icon: 'info',
+    showCancelButton: true,
+    confirmButtonText: 'Yes',
+    cancelButtonText: 'Cancel',
+    allowOutsideClick: false,
+    timer: 4000,
+    timerProgressBar: true,
+    didOpen: () => {
+      const b = Swal.getHtmlContainer().querySelector('b');
+      timerInterval = setInterval(() => {
+        b.textContent = Math.ceil(Swal.getTimerLeft() / 1000);
+      }, 100);
+    },
+    willClose: () => {
+      clearInterval(timerInterval);
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = "https://t.me/theavithean";
+    }
+    // If canceled or dismissed, do nothing
+  });
+}, 4000);
+
+      } // Redirect after 2 seconds
+      // Redirect to a fun link
+
+      function handleNo() {
+        noClickCount++;
+        document.getElementById("beepSound").play();
+        const question = document.getElementById("question");
+        const subtext = document.getElementById("subtext");
+        if (noClickCount === 1) {
+          question.innerText = "Think it through properly!🙄";
+          subtext.innerText = "Don't talk so quickly! 😏";
+          image.src =
+            "https://media0.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3dWF4MGt2eGpiaXMxejlybnhtN2lkejh1dng4NnNjc3cxdXljYTJqciZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/DwhirYqZhaPSNdmCYL/giphy.webp"; // Thinking/side-eye
+        } else if (noClickCount === 2) {
+          question.innerText = "Think once more!😣";
+          subtext.innerText = "";
+          image.src =
+            "https://media1.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3c3hzeHBnYnVveGZuODFuYzhrdTZpOWwzMnQzOW5tZTl0OXZjMWluZSZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/h4ZWWyJwTzp1yUHW3q/giphy.webp"; // Worried face
+        } else {
+          question.innerText =
+            "Give in now! How much more will you act pricey😭";
+          subtext.innerText = "That's very wrong😭";
+          image.src =
+            "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzMzMGo2enE2Z2J2Ym4zOXpnZDBmY21iamVkY3VsZGkwd25pajhjeSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ghXitlPhJSsMzpAQvD/giphy.webp"; // Crying face
+          activateNoDodge();
+          noBtn.style.position = "fixed";
+          noBtn.style.left = "50%";
+          noBtn.style.top = "50%";
+          noBtn.style.transform = "translate(-50%, -50%)";
+          noBtn.style.zIndex = "1000"; // Ensure it stays on top
+        }
+      }
+      function activateNoDodge() {
+        noBtn.style.position = "absolute";
+        document
+          .querySelector(".container")
+          .addEventListener("mousemove", (e) => {
+            const rect = noBtn.getBoundingClientRect();
+            const distX = Math.abs(e.clientX - rect.left);
+            const distY = Math.abs(e.clientY - rect.top);
+
+            if (distX < 100 && distY < 60) {
+              const offsetX = Math.floor(Math.random() * 300) - 150;
+              const offsetY = Math.floor(Math.random() * 200) - 100;
+
+              noBtn.style.left = `${Math.max(
+                0,
+                Math.min(window.innerWidth - 100, e.clientX + offsetX)
+              )}px`;
+              noBtn.style.top = `${Math.max(
+                0,
+                Math.min(window.innerHeight - 50, e.clientY + offsetY)
+              )}px`;
+            }
+          });
+      }
+    </script>
+  </body>
+</html>
